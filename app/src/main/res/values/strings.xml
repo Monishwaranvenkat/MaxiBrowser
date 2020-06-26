@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Maxi Browser</string>
+    <string name="search_url">https://www.google.com</string>
+</resources>
