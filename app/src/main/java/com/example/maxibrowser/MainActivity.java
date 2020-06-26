@@ -5,20 +5,23 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.URLUtil;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private WebView wv1;
-    private Button search_btn;
-    private EditText text_btn;
+    private WebView browser;
+    private ImageButton search_btn;
+    private ImageButton back_btn;
+    private EditText text_url;
 
 
     private   String s_url = "https://www.google.com";
@@ -28,22 +31,42 @@ public class MainActivity extends AppCompatActivity {
         setS_url();//to get the url
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        wv1=(WebView)findViewById(R.id.webview);//geting the webview id
-        wv1.setWebViewClient(new MyWebViewClient());//creating webview
-        wv1.getSettings().setLoadsImagesAutomatically(true);//to load the images in web view
-        wv1.getSettings().setJavaScriptEnabled(true);//to enable javascript in the browser
-        wv1.loadUrl(s_url);//to load the url
+        browser=(WebView)findViewById(R.id.webview);//getting the webview id
+        browser.setWebViewClient(new MyWebViewClient());//creating webview
+        browser.getSettings().setLoadsImagesAutomatically(true);//to load the images in web view
+        browser.getSettings().setJavaScriptEnabled(true);//to enable javascript in the browser
+        browser.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        browser.canGoBack();
+        browser.loadUrl(s_url);//to load the url
+
+        search_btn=(ImageButton) findViewById(R.id.search_btn);
+        back_btn=(ImageButton) findViewById(R.id.return_btn);
+        text_url=(EditText)findViewById(R.id.url);
+        //listener for search button
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = text_url.getText().toString();
+                browser.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+                browser.loadUrl(url);
+            }
+        });
+        //Listener for back button
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                browser.goBack();
+            }
+        });
+
         Intent intent = new Intent(MainActivity.this, BackgroundService.class);// creating instace for intent
         startService(intent);//starting the service class
     }
 
-
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        System.out.println("destory");//for debuging purpose
+        System.out.println("destroy");//for debuging purpose
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -64,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         boolean url_flag = URLUtil.isValidUrl(url);
         if (item[0].getText() != null && url_flag)
             s_url=url;
-
     }
 
 }
