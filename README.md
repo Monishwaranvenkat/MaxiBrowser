@@ -14,7 +14,7 @@
 
 ## App's home page
 
-searcing for www.mximal.com
+searcing for www.maximal.com
 
 ![Screenshot_2020-06-26-21-16-42-718](https://user-images.githubusercontent.com/42244770/85878705-c5683480-b7f6-11ea-82f8-d78ad64b3077.jpeg)
 
